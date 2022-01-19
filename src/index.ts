@@ -2,8 +2,6 @@ import serialport, { parsers } from 'serialport';
 import { mpptObject } from './fields';
 const maxApi = require('max-api');
 
-maxApi.post('Hello world');
-
 const parser = new parsers.Readline({
   delimiter: '\r\n',
   includeDelimiter: false,
@@ -39,7 +37,6 @@ port.pipe(parser);
 let dataPoint: { [key: string]: any } = {};
 let packagesSinceLastWrite = 0;
 let lastValue = 0;
-const data: { [key: string]: any }[] = [];
 
 parser.on('data', (line) => {
   const [label, value] = line.split('\t');
@@ -52,9 +49,6 @@ parser.on('data', (line) => {
 
   if (label === 'Checksum') {
     if (packagesSinceLastWrite++ === 0) {
-      dataPoint.time = new Date().toISOString();
-      data.push(dataPoint);
-
       const value = parseFloat(dataPoint.PPV) + Math.random() * 0.5 + 0.5;
       maxApi.post(value);
       if (lastValue) maxApi.outlet(lastValue, value);
