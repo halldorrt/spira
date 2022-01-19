@@ -1,6 +1,8 @@
-import { writeFileSync } from 'fs';
 import serialport, { parsers } from 'serialport';
 import { mpptObject } from './fields';
+const maxApi = require('max-api');
+
+maxApi.post('Hello world');
 
 const parser = new parsers.Readline({
   delimiter: '\r\n',
@@ -35,10 +37,12 @@ const port = new serialport(
 port.pipe(parser);
 
 let dataPoint: { [key: string]: any } = {};
+let packagesSinceLastWrite = 0;
+let lastValue = 0;
 const data: { [key: string]: any }[] = [];
 
-parser.on('data', (foo) => {
-  const [label, value] = foo.split('\t');
+parser.on('data', (line) => {
+  const [label, value] = line.split('\t');
 
   const mpptField = mpptObject[label];
 
@@ -47,16 +51,17 @@ parser.on('data', (foo) => {
   dataPoint[label] = value;
 
   if (label === 'Checksum') {
-    dataPoint.time = new Date().toISOString();
-    data.push(dataPoint);
+    if (packagesSinceLastWrite++ === 0) {
+      dataPoint.time = new Date().toISOString();
+      data.push(dataPoint);
+
+      const value = parseFloat(dataPoint.PPV) + Math.random() * 0.5 + 0.5;
+      maxApi.post(value);
+      if (lastValue) maxApi.outlet(lastValue, value);
+      else maxApi.outlet(1);
+      lastValue = value;
+    }
+    if (packagesSinceLastWrite === 10) packagesSinceLastWrite = 0;
     dataPoint = {};
-  }
-
-  if (data.length === 120) {
-    writeFileSync('./output.json', JSON.stringify(data, null, 2));
-
-    parser.end(() => {
-      port.close();
-    });
   }
 });
