@@ -5,7 +5,7 @@ import { storeMpptValues } from './storeMpptValues';
 const maxApi = require('max-api');
 dotenv.config();
 
-maxApi.post({ printLines: process.env.print_lines });
+maxApi.post({ env: process.env });
 
 const parser = new parsers.Readline({
   delimiter: '\r\n',
