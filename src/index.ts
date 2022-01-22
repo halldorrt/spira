@@ -37,7 +37,7 @@ port.pipe(parser);
 
 let dataPoint: { [key: string]: any } = {};
 let packagesSinceLastWrite = 0;
-let lastValue = 0;
+let lastValue: number | undefined;
 
 parser.on('data', (line) => {
   try {
@@ -53,7 +53,7 @@ parser.on('data', (line) => {
       if (packagesSinceLastWrite++ === 0) {
         const value = parseFloat(dataPoint.PPV);
 
-        if (lastValue) maxApi.outlet(lastValue, value);
+        if (lastValue === undefined) maxApi.outlet(lastValue, value);
         else maxApi.outlet(1);
         lastValue = value;
 
