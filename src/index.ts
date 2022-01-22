@@ -1,8 +1,11 @@
-import 'dotenv/config';
+import * as dotenv from 'dotenv';
 import serialport, { parsers } from 'serialport';
 import { mpptObject } from './fields';
 import { storeMpptValues } from './storeMpptValues';
 const maxApi = require('max-api');
+dotenv.config();
+
+maxApi.post({ printLines: process.env.print_lines });
 
 const parser = new parsers.Readline({
   delimiter: '\r\n',
