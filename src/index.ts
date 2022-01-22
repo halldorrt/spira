@@ -53,7 +53,7 @@ parser.on('data', (line) => {
       if (packagesSinceLastWrite++ === 0) {
         const value = parseFloat(dataPoint.PPV);
 
-        if (lastValue === undefined) maxApi.outlet(lastValue, value);
+        if (lastValue !== undefined) maxApi.outlet(lastValue, value);
         else maxApi.outlet(1);
         lastValue = value;
 
