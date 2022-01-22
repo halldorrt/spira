@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
 
 let lastReport = 0;
-const dir = './output';
+const dir = '../output';
 
 export function storeMpptValues(dataPoint: { [key: string]: any }) {
   if (lastReport++ === 0) {
