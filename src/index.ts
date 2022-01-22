@@ -1,9 +1,7 @@
-import * as dotenv from 'dotenv';
 import serialport, { parsers } from 'serialport';
 import { mpptObject } from './fields';
 import { storeMpptValues } from './storeMpptValues';
 const maxApi = require('max-api');
-dotenv.config();
 
 const parser = new parsers.Readline({
   delimiter: '\r\n',
@@ -43,7 +41,6 @@ let lastValue = 0;
 
 parser.on('data', (line) => {
   try {
-    maxApi.post({ line });
     const [label, value] = line.split('\t');
 
     const mpptField = mpptObject[label];
@@ -54,22 +51,24 @@ parser.on('data', (line) => {
 
     if (label === 'Checksum') {
       if (packagesSinceLastWrite++ === 0) {
-        maxApi.post({ PPV: dataPoint.PPV });
         const value = parseFloat(dataPoint.PPV);
 
-        const maxMspValue =
-          process.env.NODE_ENV === 'debug' ? value + Math.random() * 0.5 + 0.5 : value;
-
-        if (lastValue) maxApi.outlet(lastValue, maxMspValue);
+        if (lastValue) maxApi.outlet(lastValue, value);
         else maxApi.outlet(1);
-        lastValue = maxMspValue;
+        lastValue = value;
 
-        storeMpptValues(dataPoint);
+        try {
+          storeMpptValues(dataPoint);
+        } catch (e) {
+          console.log('failed to store Mppt values', e);
+          maxApi.post('Failed to store Mppt values', e);
+        }
       }
       if (packagesSinceLastWrite === 10) packagesSinceLastWrite = 0;
       dataPoint = {};
     }
   } catch (e) {
-    maxApi.post(e);
+    console.log('on data handler failed', e);
+    maxApi.post('on data handler failed', e);
   }
 });
