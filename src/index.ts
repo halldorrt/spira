@@ -41,28 +41,33 @@ let packagesSinceLastWrite = 0;
 let lastValue = 0;
 
 parser.on('data', (line) => {
-  const [label, value] = line.split('\t');
+  try {
+    const [label, value] = line.split('\t');
 
-  const mpptField = mpptObject[label];
+    const mpptField = mpptObject[label];
 
-  if (!mpptField) console.log('Unknown label', label, value);
+    if (!mpptField) console.log('Unknown label', label, value);
 
-  dataPoint[label] = value;
+    dataPoint[label] = value;
 
-  if (label === 'Checksum') {
-    if (packagesSinceLastWrite++ === 0) {
-      const value = parseFloat(dataPoint.PPV);
+    if (label === 'Checksum') {
+      if (packagesSinceLastWrite++ === 0) {
+        maxApi.post(dataPoint.PPV);
+        const value = parseFloat(dataPoint.PPV);
 
-      const maxMspValue =
-        process.env.NODE_ENV === 'debug' ? value + Math.random() * 0.5 + 0.5 : value;
+        const maxMspValue =
+          process.env.NODE_ENV === 'debug' ? value + Math.random() * 0.5 + 0.5 : value;
 
-      if (lastValue) maxApi.outlet(lastValue, maxMspValue);
-      else maxApi.outlet(1);
-      lastValue = maxMspValue;
+        if (lastValue) maxApi.outlet(lastValue, maxMspValue);
+        else maxApi.outlet(1);
+        lastValue = maxMspValue;
 
-      storeMpptValues(dataPoint);
+        storeMpptValues(dataPoint);
+      }
+      if (packagesSinceLastWrite === 10) packagesSinceLastWrite = 0;
+      dataPoint = {};
     }
-    if (packagesSinceLastWrite === 10) packagesSinceLastWrite = 0;
-    dataPoint = {};
+  } catch (e) {
+    maxApi.post(e);
   }
 });
