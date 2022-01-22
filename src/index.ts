@@ -42,6 +42,7 @@ let lastValue = 0;
 
 parser.on('data', (line) => {
   try {
+    if (process.env.print_lines === 'true') maxApi.post({ line });
     const [label, value] = line.split('\t');
 
     const mpptField = mpptObject[label];
@@ -52,7 +53,7 @@ parser.on('data', (line) => {
 
     if (label === 'Checksum') {
       if (packagesSinceLastWrite++ === 0) {
-        maxApi.post(dataPoint.PPV);
+        maxApi.post({ PPV: dataPoint.PPV });
         const value = parseFloat(dataPoint.PPV);
 
         const maxMspValue =
