@@ -5,8 +5,6 @@ import { storeMpptValues } from './storeMpptValues';
 const maxApi = require('max-api');
 dotenv.config();
 
-maxApi.post({ env: process.env });
-
 const parser = new parsers.Readline({
   delimiter: '\r\n',
   includeDelimiter: false,
@@ -45,7 +43,7 @@ let lastValue = 0;
 
 parser.on('data', (line) => {
   try {
-    if (process.env.print_lines === 'true') maxApi.post({ line });
+    maxApi.post({ line });
     const [label, value] = line.split('\t');
 
     const mpptField = mpptObject[label];
