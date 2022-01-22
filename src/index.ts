@@ -1,5 +1,7 @@
+import 'dotenv/config';
 import serialport, { parsers } from 'serialport';
 import { mpptObject } from './fields';
+import { storeMpptValues } from './storeMpptValues';
 const maxApi = require('max-api');
 
 const parser = new parsers.Readline({
@@ -49,11 +51,16 @@ parser.on('data', (line) => {
 
   if (label === 'Checksum') {
     if (packagesSinceLastWrite++ === 0) {
-      const value = parseFloat(dataPoint.PPV) + Math.random() * 0.5 + 0.5;
-      maxApi.post(value);
-      if (lastValue) maxApi.outlet(lastValue, value);
+      const value = parseFloat(dataPoint.PPV);
+
+      const maxMspValue =
+        process.env.NODE_ENV === 'debug' ? value + Math.random() * 0.5 + 0.5 : value;
+
+      if (lastValue) maxApi.outlet(lastValue, maxMspValue);
       else maxApi.outlet(1);
-      lastValue = value;
+      lastValue = maxMspValue;
+
+      storeMpptValues(dataPoint);
     }
     if (packagesSinceLastWrite === 10) packagesSinceLastWrite = 0;
     dataPoint = {};
