@@ -20,7 +20,7 @@ export function scaleFactory() {
       if (currentMax !== previousMax) saveCurrentMaxValue(currentMax);
       // We want to return a value between 0.5 and 1.0 since those values
       // translate to 0 to 1 in Max MSP speed and brightness
-      const currentPosition = value / (currentMax || 1) / 2 + 0.5;
+      const currentPosition = value / (currentMax || 1);
       const result = {
         lastPosition: lastPosition || currentPosition,
         currentPosition: currentPosition,
