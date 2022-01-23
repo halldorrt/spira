@@ -64,8 +64,8 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 64.5, 661.0, 127.0, 22.0 ],
-					"text" : "expr pow(0.5\\, -$f1) - 1"
+					"patching_rect" : [ 64.5, 661.0, 113.0, 22.0 ],
+					"text" : "expr pow(2\\, $f1) - 1"
 				}
 
 			}
@@ -76,8 +76,8 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 33.0, 370.0, 127.0, 22.0 ],
-					"text" : "expr pow(0.5\\, -$f1) - 1"
+					"patching_rect" : [ 33.0, 370.0, 113.0, 22.0 ],
+					"text" : "expr pow(2\\, $f1) - 1"
 				}
 
 			}
@@ -293,7 +293,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 832.0, 157.0, 50.0, 35.0 ],
-					"text" : "0.966186"
+					"text" : "0.786678"
 				}
 
 			}
@@ -343,7 +343,7 @@
 					"numoutlets" : 3,
 					"outlettype" : [ "", "", "" ],
 					"patching_rect" : [ 64.5, 628.0, 121.0, 22.0 ],
-					"restore" : [ 0.6 ],
+					"restore" : [ 0.99 ],
 					"saved_object_attributes" : 					{
 						"parameter_enable" : 0,
 						"parameter_mappable" : 0
@@ -362,7 +362,7 @@
 					"numoutlets" : 3,
 					"outlettype" : [ "", "", "" ],
 					"patching_rect" : [ 33.0, 338.0, 121.0, 22.0 ],
-					"restore" : [ 0.6 ],
+					"restore" : [ 0.99 ],
 					"saved_object_attributes" : 					{
 						"parameter_enable" : 0,
 						"parameter_mappable" : 0
@@ -381,7 +381,7 @@
 					"numoutlets" : 3,
 					"outlettype" : [ "", "", "" ],
 					"patching_rect" : [ 209.5, 286.0, 73.0, 22.0 ],
-					"restore" : [ 0.6 ],
+					"restore" : [ 0.99 ],
 					"saved_object_attributes" : 					{
 						"parameter_enable" : 0,
 						"parameter_mappable" : 0
@@ -462,7 +462,7 @@
 					"numoutlets" : 3,
 					"outlettype" : [ "", "", "" ],
 					"patching_rect" : [ 621.5, 140.0, 174.0, 22.0 ],
-					"restore" : [ 0.966186252771619 ],
+					"restore" : [ 0.786677753141168 ],
 					"saved_object_attributes" : 					{
 						"parameter_enable" : 0,
 						"parameter_mappable" : 0
@@ -481,7 +481,7 @@
 					"numoutlets" : 3,
 					"outlettype" : [ "", "", "" ],
 					"patching_rect" : [ 282.5, 632.0, 126.0, 22.0 ],
-					"restore" : [ 0.966186252771619 ],
+					"restore" : [ 0.786677753141168 ],
 					"saved_object_attributes" : 					{
 						"parameter_enable" : 0,
 						"parameter_mappable" : 0
