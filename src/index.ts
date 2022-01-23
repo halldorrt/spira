@@ -5,7 +5,7 @@ import { storeMpptValues } from './storeMpptValues';
 const scale = scaleFactory();
 const maxApi = require('max-api');
 
-maxApi.outlet('start');
+maxApi.post('Hello Max!');
 
 const parser = new parsers.Readline({
   delimiter: '\r\n',
