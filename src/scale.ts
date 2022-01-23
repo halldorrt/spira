@@ -4,7 +4,7 @@ type FileContent = {
   max: number;
 };
 
-export const maxValueFileDir = process.env.NODE_ENV === 'test-run' ? './test' : '..';
+export const maxValueFileDir = process.env.NODE_ENV === 'test-run' ? './test' : '../output';
 export const maxValueFilePath = `${maxValueFileDir}/maxValue.json`;
 
 export function scaleFactory() {
