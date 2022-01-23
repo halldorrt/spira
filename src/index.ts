@@ -1,7 +1,11 @@
 import serialport, { parsers } from 'serialport';
 import { mpptObject } from './fields';
+import { scaleFactory } from './scale';
 import { storeMpptValues } from './storeMpptValues';
+const scale = scaleFactory();
 const maxApi = require('max-api');
+
+maxApi.outlet('start');
 
 const parser = new parsers.Readline({
   delimiter: '\r\n',
@@ -37,7 +41,6 @@ port.pipe(parser);
 
 let dataPoint: { [key: string]: any } = {};
 let packagesSinceLastWrite = 0;
-let lastValue: number | undefined;
 
 parser.on('data', (line) => {
   try {
@@ -51,11 +54,8 @@ parser.on('data', (line) => {
 
     if (label === 'Checksum') {
       if (packagesSinceLastWrite++ === 0) {
-        const value = parseFloat(dataPoint.PPV);
-
-        if (lastValue !== undefined) maxApi.outlet(lastValue, value);
-        else maxApi.outlet(1);
-        lastValue = value;
+        const { lastPosition, currentPosition } = scale.getPosition(parseFloat(dataPoint.PPV));
+        maxApi.outlet(lastPosition, currentPosition);
 
         try {
           storeMpptValues(dataPoint);
