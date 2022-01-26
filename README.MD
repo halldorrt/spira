@@ -9,7 +9,7 @@ Max MSP 8 must be installed
 Open spira.maxpat. The project will automatically start running the piece after 3 seconds. This will not work since
 the node project has not been set up and there is no video to play. Exit fullscreen and click the install show program button.
 This will set up the node program.
-You will also need to add the video file to the root folder. Is should be called [INSERT NAME].
+You will also need to add the video file to the root folder. Is should be called SnertitaugFinal.mov.
 Once these two steps have been completed you can click start show to run the program. After this initial setup it is enough
 to open spira.maxpat to run the show.
 
