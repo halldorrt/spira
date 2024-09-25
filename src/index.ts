@@ -1,4 +1,4 @@
-import serialport, { parsers } from 'serialport';
+import { SerialPort, ReadlineParser } from 'serialport';
 import { mpptObject } from './fields';
 import { logger } from './logger';
 import { scaleFactory } from './scale';
@@ -12,7 +12,7 @@ try {
 
 logger.log('Hello Max!');
 
-const parser = new parsers.Readline({
+const parser = new ReadlineParser({
   delimiter: '\r\n',
   includeDelimiter: false,
   encoding: 'ascii',
@@ -21,9 +21,9 @@ const parser = new parsers.Readline({
   .on('end', () => logger.log('ReadLine parser ended'));
 
 try {
-  const port = new serialport(
-    '/dev/tty.usbserial-VE53UPJX',
+  const port = new SerialPort(
     {
+      path: '/dev/tty.usbserial-VE53UPJX',
       baudRate: 19200,
     },
     (e) => {
